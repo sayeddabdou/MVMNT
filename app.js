@@ -1986,7 +1986,7 @@ app.post('/membership/payment', async (req, res) => {
 
     try {
         // Save the payment to the database
-        await newPayment.save();
+        // await newPayment.save();
         console.log('Payment saved to database');
 
         // Simulate successful payment processing
