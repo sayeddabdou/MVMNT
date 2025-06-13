@@ -1,0 +1,55 @@
+<%- include('booking-trainer', {
+    trainer: {
+        id: 'laura',
+        name: 'Laura White',
+        role: 'Yoga & Pilates Specialist',
+        specialties: ['Yoga', 'Pilates', 'Mind-Body Training'],
+        experience: '6 years',
+        image: 'coach-laura.jpg',
+        description: 'Laura specializes in combining yoga and Pilates to create balanced, mindful workouts that improve strength, flexibility, and mental well-being.',
+        classes: [
+            {
+                name: 'Yoga & Pilates Fusion',
+                schedule: 'Mon, Wed, Fri 10:00 AM',
+                duration: '60 mins',
+                level: 'All Levels'
+            },
+            {
+                name: 'Mindful Movement',
+                schedule: 'Tue, Thu 9:00 AM',
+                duration: '45 mins',
+                level: 'Beginner'
+            }
+        ],
+        certifications: [
+            'RYT-200 Yoga Certification',
+            'Pilates Mat Certification',
+            'Mind-Body Training Specialist'
+        ]
+    },
+    locations: [
+        { value: 'main', name: 'Main Branch' },
+        { value: 'downtown', name: 'Downtown' },
+        { value: 'uptown', name: 'Uptown' }
+    ],
+    packages: [
+        {
+            id: 1,
+            title: 'Single Session',
+            price: 50,
+            description: 'One-on-one training session with Laura'
+        },
+        {
+            id: 2,
+            title: '5 Sessions Package',
+            price: 225,
+            description: '5 one-on-one training sessions (Save $25)'
+        },
+        {
+            id: 3,
+            title: '10 Sessions Package',
+            price: 400,
+            description: '10 one-on-one training sessions (Save $100)'
+        }
+    ]
+}) %> 

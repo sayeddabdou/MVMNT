@@ -1,0 +1,323 @@
+<!-- Orders Management Section -->
+<section class="admin-section">
+    <h1 class="section-title">Orders Management</h1>
+
+    <div class="action-bar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="order-search" placeholder="Search orders by ID or customer name..." />
+        </div>
+        <select id="status-filter" class="filter-btn">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Processing">Processing</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+        </select>
+        <button class="btn" id="export-csv">Export CSV</button>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <div>Order ID</div>
+            <div>Customer</div>
+            <div>Items</div>
+            <div>Total</div>
+            <div>Status</div>
+            <div>Date</div>
+            <div>Actions</div>
+        </div>
+        <div class="table-body" id="order-table-body">
+            <% orders.forEach(order => { %>
+                <div class="table-row">
+                    <div>#<%= order.id %></div>
+                    <div><%= order.customer %></div>
+                    <div><%= order.items %> items</div>
+                    <div>$<%= order.total.toFixed(2) %></div>
+                    <div class="status <%= order.status.toLowerCase() %>"><%= order.status %></div>
+                    <div><%= order.date || 'N/A' %></div>
+                    <div class="actions">
+                        <button class="action-btn view-order" data-id="<%= order.id %>" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn update-status" data-id="<%= order.id %>" title="Update Status">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Order Details Modal -->
+<div id="order-modal" class="modal">
+    <div class="modal-box">
+        <span class="close-btn">&times;</span>
+        <h2>Order Details</h2>
+        <div id="order-details">
+            <div class="order-info">
+                <div class="detail-group">
+                    <label>Order ID:</label>
+                    <span id="detail-order-id"></span>
+                </div>
+                <div class="detail-group">
+                    <label>Customer:</label>
+                    <span id="detail-customer"></span>
+                </div>
+                <div class="detail-group">
+                    <label>Date:</label>
+                    <span id="detail-date"></span>
+                </div>
+                <div class="detail-group">
+                    <label>Status:</label>
+                    <span id="detail-status"></span>
+                </div>
+                <div class="detail-group">
+                    <label>Total:</label>
+                    <span id="detail-total"></span>
+                </div>
+            </div>
+            <div class="order-items">
+                <h3>Items</h3>
+                <div id="items-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Status Modal -->
+<div id="status-modal" class="modal">
+    <div class="modal-box">
+        <span class="close-btn">&times;</span>
+        <h2>Update Order Status</h2>
+        <form id="status-form">
+            <input type="hidden" id="status-order-id" name="orderId">
+            <div class="form-group">
+                <label for="new-status">New Status:</label>
+                <select id="new-status" name="status" required>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+            <button type="submit" class="save-btn">Update Status</button>
+        </form>
+    </div>
+</div>
+
+<!-- Notification Popup -->
+<div id="popup-notification"></div>
+
+<style>
+.admin-section {
+    padding: 20px;
+    color: #fff;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #00ffff;
+}
+
+.action-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-box {
+    flex: 1;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 35px;
+    border: 1px solid #2c3338;
+    border-radius: 4px;
+    background-color: #1a1d21;
+    color: #fff;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00ffff;
+}
+
+.filter-btn {
+    padding: 10px;
+    border: 1px solid #2c3338;
+    border-radius: 4px;
+    background-color: #1a1d21;
+    color: #fff;
+    cursor: pointer;
+}
+
+.table-container {
+    background-color: #1a1d21;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: auto 2fr 1fr 1fr 1fr 1fr auto;
+    padding: 15px;
+    background-color: #2c3338;
+    color: #00ffff;
+    font-weight: bold;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: auto 2fr 1fr 1fr 1fr 1fr auto;
+    padding: 15px;
+    border-bottom: 1px solid #2c3338;
+    align-items: center;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.status.pending {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status.processing {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.status.completed {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.status.cancelled {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.action-btn {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2c3338;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #00ffff;
+    color: #2c3338;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background-color: #1a1d21;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 400px;
+    max-width: 600px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #00ffff;
+}
+
+.detail-group {
+    margin-bottom: 15px;
+}
+
+.detail-group label {
+    font-weight: bold;
+    color: #00ffff;
+    margin-right: 10px;
+}
+
+.order-items {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #2c3338;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #00ffff;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #2c3338;
+    border-radius: 4px;
+    background-color: #1a1d21;
+    color: #fff;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #00ffff;
+    color: #1a1d21;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: #00cccc;
+}
+</style>
+
+<%- contentFor('scripts') %>
+<script src="/js/admin-orders.js"></script> 

@@ -1,0 +1,44 @@
+<!-- Hero Section -->
+<section class="classes section-padding">
+    <h2 class="classes-title">Our Classes</h2>
+    <p class="class-parg">Find the perfect class to achieve your fitness goals.</p>
+    <div class="photo-marquee">
+        <div class="marquee-content">
+            <% const marqueeImages = [
+                'Boxing.jpg',
+                'calisthenics.jpg',
+                'cycling.jpg',
+                'HIIT.jpg',
+                'yoga.jpg',
+                'pilates.jpg'
+            ]; %>
+            
+            <% marqueeImages.forEach(image => { %>
+                <img src="/images/<%= image %>" alt="Class Image" class="marquee-img">
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Class Categories Section -->
+<section class="class-categories">
+    <h2>Class Categories</h2>
+    <div class="category-list">
+        <% classData.categories.forEach(category => { %>
+            <div class="flip-card" onclick="openClassModal('<%= category.toLowerCase() %>')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front" style="background-image: url('/images/<%= category.toLowerCase() %>.jpg')">
+                        <div class="content-overlay">
+                            <h3><%= category %></h3>
+                        </div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3><%= category %></h3>
+                        <p>Join our <%= category %> class for an amazing workout experience!</p>
+                        <a href="/booking-class/<%= category.toLowerCase() %>" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section>

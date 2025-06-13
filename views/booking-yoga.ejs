@@ -1,0 +1,32 @@
+<%- include('booking-class', {
+    classData: {
+        name: 'Yoga',
+        type: 'Mind & Body',
+        difficulty: 'All Levels',
+        calories: '300',
+        duration: '60',
+        location: 'Yoga Studio',
+        capacity: '15',
+        image: 'yoga.jpg',
+        description: 'Our yoga classes combine traditional poses with modern techniques to improve flexibility, strength, and mental clarity. Perfect for all experience levels, from beginners to advanced practitioners.',
+        benefits: [
+            'Improved flexibility and balance',
+            'Stress reduction and relaxation',
+            'Enhanced strength and posture',
+            'Better breathing techniques',
+            'Mind-body connection'
+        ],
+        trainers: [
+            {
+                name: 'Sarah Williams',
+                role: 'Lead Yoga Instructor',
+                image: 'coach-sarah.jpg'
+            },
+            {
+                name: 'Emily Smith',
+                role: 'Yoga Specialist',
+                image: 'coach-emily.jpg'
+            }
+        ]
+    }
+}) %> 

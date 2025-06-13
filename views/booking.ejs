@@ -1,0 +1,78 @@
+<!-- Booking Main Content -->
+<section class="booking-container">
+    <div class="coach-header">
+        <img src="/images/<%= coach.image %>" alt="<%= coach.name %>" class="coach-image">
+        <div class="coach-info">
+            <h2><%= coach.name %></h2>
+            <div class="coach-specialty">Specialty: <%= coach.specialty %></div>
+            <div>Experience: <%= coach.experience %> years</div>
+            <div>Certification: <%= coach.certification %></div>
+        </div>
+    </div>
+    <form id="bookingForm" class="booking-form">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Preferred Date</label>
+            <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Preferred Time</label>
+            <input type="time" id="time" required>
+        </div>
+        <div class="form-group">
+            <label for="location">Preferred Location</label>
+            <select id="location" required>
+                <option value="">Select location</option>
+                <% locations.forEach(location => { %>
+                    <option value="<%= location.value %>"><%= location.name %></option>
+                <% }); %>
+            </select>
+        </div>
+        <div class="form-group full-width">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" rows="4"></textarea>
+        </div>
+        <div class="package-options">
+            <h3>Select a Package</h3>
+            <% packages.forEach(package => { %>
+                <div class="package-card" data-package-id="<%= package.id %>">
+                    <div class="package-title"><%= package.title %></div>
+                    <div class="package-description"><%= package.description %></div>
+                    <div class="package-price">$<%= package.price %></div>
+                </div>
+            <% }); %>
+        </div>
+        <button type="submit" class="submit-btn">Book Session</button>
+    </form>
+</section>
+
+<!-- Login Modal -->
+<div class="modal" id="login-modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+    </div>
+</div> 

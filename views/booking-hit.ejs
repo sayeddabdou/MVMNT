@@ -1,0 +1,83 @@
+<div class="booking-container">
+    <h1>BOOK THIS CLASS NOW</h1>
+    <p>Come along and join this great class at the gym</p>
+
+    <form action="/booking-class/hiit" method="POST" class="booking-form">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="tel" name="phone" placeholder="Phone Number" required>
+        
+        <!-- Hidden fields for class information -->
+        <input type="hidden" name="className" value="HIIT Training">
+        <input type="hidden" name="classType" value="High Intensity Training">
+        <input type="hidden" name="place" value="Main Studio">
+        <input type="hidden" name="difficulty" value="Advanced Level">
+        <input type="hidden" name="calories" value="500">
+        <input type="hidden" name="duration" value="45">
+        <input type="hidden" name="trainer" value="John Doe">
+        
+        <div class="terms-container">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I've read and I accept the Terms & Conditions</label>
+        </div>
+
+        <button type="submit" class="book-now-btn">BOOK NOW</button>
+    </form>
+
+    <div class="class-info">
+        <div class="info-item">
+            <h3>TYPE:</h3>
+            <p>High Intensity Training</p>
+        </div>
+        <div class="info-item">
+            <h3>DIFFICULTY:</h3>
+            <p>Advanced Level</p>
+        </div>
+        <div class="info-item">
+            <h3>CALORIES:</h3>
+            <p>500 Kcal</p>
+        </div>
+        <div class="info-item">
+            <h3>DURATION:</h3>
+            <p>45 mins</p>
+        </div>
+        <div class="info-item">
+            <h3>PLACE:</h3>
+            <p>Main Studio</p>
+        </div>
+        <div class="info-item">
+            <h3>LIMIT:</h3>
+            <p>20 participants</p>
+        </div>
+    </div>
+
+    <div class="trainers-section">
+        <h2>CLASS TRAINERS</h2>
+        <div class="trainers">
+            <div class="trainer">
+                <img src="/images/coach-john.jpg" alt="John Doe">
+                <h3>John Doe</h3>
+                <p>Lead HIIT Instructor</p>
+            </div>
+            <div class="trainer">
+                <img src="/images/coach-alex.jpg" alt="Alex Green">
+                <h3>Alex Green</h3>
+                <p>HIIT Specialist</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>ABOUT THE HIIT CLASSES</h2>
+        <p>High-intensity interval training (HIIT) is perfect for burning fat and improving cardiovascular health. Each session is 45 minutes of intense, calorie-burning workouts.</p>
+        
+        <h3>The Health benefits of hiit</h3>
+        <ul>
+            <li>Increased metabolism and fat burning</li>
+            <li>Improved cardiovascular endurance</li>
+            <li>Enhanced strength and power</li>
+            <li>Time-efficient workout</li>
+            <li>Continued calorie burn after workout</li>
+        </ul>
+    </div>
+</div> 

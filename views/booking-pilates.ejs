@@ -1,0 +1,32 @@
+<%- include('booking-class', {
+    classData: {
+        name: 'Pilates',
+        type: 'Core & Conditioning',
+        difficulty: 'All Levels',
+        calories: '350',
+        duration: '50',
+        location: 'Pilates Studio',
+        capacity: '12',
+        image: 'pilates.jpg',
+        description: 'Strengthen your core, improve posture, and enhance body awareness through our Pilates classes. Using both mat work and reformer exercises, our certified instructors will guide you through precise movements for total body conditioning.',
+        benefits: [
+            'Core strength development',
+            'Improved posture and alignment',
+            'Increased flexibility',
+            'Better balance and coordination',
+            'Injury prevention and rehabilitation'
+        ],
+        trainers: [
+            {
+                name: 'Sarah Williams',
+                role: 'Lead Pilates Instructor',
+                image: 'coach-sarah.jpg'
+            },
+            {
+                name: 'Laura Chen',
+                role: 'Pilates Specialist',
+                image: 'coach-laura.jpg'
+            }
+        ]
+    }
+}) %> 

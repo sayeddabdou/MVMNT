@@ -1,0 +1,279 @@
+/* shop.css - MVMNT Shop Styles */
+:root {
+    --bg-color: #0a0a0a;
+    --snd-bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --main-color: #45e9ff;
+    --accent-color: #ff5500;
+    --discount-color: #ff304f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Modern Header - Updated for sale page */
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background: rgba(10, 10, 10, 0.95);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(69, 233, 255, 0.1);
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--main-color);
+}
+
+.main-nav {
+    display: flex;
+    gap: 2rem;
+}
+
+.main-nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.main-nav a:hover {
+    color: var(--main-color);
+    background: rgba(69, 233, 255, 0.1);
+}
+
+/* Hide "ON SALE" link on sale pages */
+body.sale-page .main-nav a[href="on-sale.html"] {
+    display: none;
+}
+
+/* Animated Hero Section */
+.shop-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10rem 8% 2rem;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') 
+                no-repeat center center/cover;
+    animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.shop-container {
+    max-width: 800px;
+    margin: 0 auto;
+    transform: translateY(20px);
+    animation: slideUp 1s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.shop-hero h1 {
+    font-size: 6rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--main-color);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1.1;
+}
+
+.shop-hero p {
+    font-size: 1.8rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.shop-now-btn {
+    display: inline-block;
+    padding: 1.3rem 3.5rem;
+    background: var(--main-color);
+    color: var(--bg-color);
+    border-radius: 50px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(69, 233, 255, 0.4);
+}
+
+.shop-now-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(69, 233, 255, 0.6);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .shop-header {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+    
+    .logo {
+        margin-bottom: 1.5rem;
+    }
+    
+    .main-nav {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .shop-hero h1 {
+        font-size: 4rem;
+    }
+    
+    .shop-hero p {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .shop-hero h1 {
+        font-size: 3rem;
+        letter-spacing: 2px;
+    }
+    
+    .main-nav a {
+        font-size: 1rem;
+    }
+    
+    .shop-now-btn {
+        padding: 1rem 2.5rem;
+        font-size: 1.2rem;
+    }
+}
+
+.shop-footer {
+    background: var(--snd-bg-color);
+    padding: 3rem 5%;
+    text-align: center;
+    border-top: 1px solid rgba(69, 233, 255, 0.1);
+}
+
+.footer-logo {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo span {
+    color: var(--main-color);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--main-color);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.social-links a {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--main-color);
+    transform: translateY(-3px);
+}
+
+.copyright {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-nav {
+        display: none;
+    }
+    
+    .sale-hero-content h1 {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .sale-hero-content h1 {
+        font-size: 2.8rem;
+    }
+    
+    .sale-hero-content p {
+        font-size: 1.2rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+

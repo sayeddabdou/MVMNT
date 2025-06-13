@@ -1,0 +1,627 @@
+<!-- Process Container -->
+<div class="process-container">
+    <div class="process-steps">
+        <!-- Steps will be rendered here by JavaScript -->
+    </div>
+
+    <div class="selected-plan">
+        <h3>Selected Plan: <span id="plan-name"></span></h3>
+        <p id="plan-features"></p>
+    </div>
+
+    <div class="process-content">
+        <!-- Trainer Selection -->
+        <div class="trainer-selection active-section" id="trainer-section">
+            <h2>Select Your Trainer</h2>
+            <p>Choose a personal trainer to guide you through your fitness journey</p>
+            
+            <div class="trainers-grid">
+                <!-- Trainers will be rendered here by JavaScript -->
+            </div>
+            
+            <div class="process-buttons">
+                <button class="btn btn-secondary" onclick="window.location.href='/membership'">Back</button>
+                <button class="btn btn-primary" onclick="nextStep('class-section', 'step2')">Next: Choose Classes</button>
+            </div>
+        </div>
+        
+        <!-- Class Selection -->
+        <div class="class-selection" id="class-section">
+            <h2>Choose Your Classes</h2>
+            <p>Select the classes you want to include in your membership</p>
+            
+            <div class="classes-grid">
+                <!-- Classes will be rendered here by JavaScript -->
+            </div>
+            
+            <div class="process-buttons">
+                <button class="btn btn-secondary" onclick="prevStep('trainer-section', 'step1')">Back</button>
+                <button class="btn btn-primary" onclick="nextStep('payment-section', 'step3')">Next: Payment</button>
+            </div>
+        </div>
+        
+        <!-- Payment Section -->
+        <div class="payment-form" id="payment-section">
+            <h2>Payment Information</h2>
+            <p>Enter your payment details to complete your membership</p>
+            
+            <form id="paymentForm" action="/membership/payment" method="POST">
+                <input type="hidden" name="planId" id="selectedPlanId">
+                <input type="hidden" name="trainerId" id="selectedTrainerId">
+                <input type="hidden" name="classIds" id="selectedClassIds">
+                
+                <div class="form-group">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry-date">Expiry Date</label>
+                        <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY" required maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-name">Name on Card</label>
+                    <input type="text" id="card-name" name="cardName" placeholder="John Doe" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment-email">Email for Receipt</label>
+                    <input type="text" id="payment-email" name="email" placeholder="your@email.com" required>
+                </div>
+                
+                <div class="process-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep('class-section', 'step2')">Back</button>
+                    <button type="submit" class="btn btn-primary">Complete Payment</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Confirmation Section -->
+        <div class="confirmation" id="confirmation-section">
+            <i class="fas fa-check-circle"></i>
+            <h2>Membership Confirmed!</h2>
+            <p>Thank you for joining MVMNT Gym. Your membership details have been sent to your email.</p>
+            <p>Your membership starts: <strong id="start-date"></strong></p>
+            <div class="process-buttons">
+                <button class="btn btn-primary" onclick="window.location.href='/'">Back to Home</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-group input {
+        transition: border-color 0.3s ease;
+    }
+    
+    .form-group input.valid {
+        border: 2px solid #4CAF50 !important;
+    }
+    
+    .form-group input.invalid {
+        border: 2px solid #f44336 !important;
+    }
+</style>
+
+<script>
+    // Log to check if the script is running
+    console.log('annual-process.ejs script started');
+
+    // Add steps data (hardcoded based on app.js data)
+    const stepsData = [
+        { number: 1, title: 'Assessment', description: 'Initial fitness evaluation' },
+        { number: 2, title: 'Planning', description: 'Customized workout plan' },
+        { number: 3, title: 'Training', description: 'Regular sessions with coaches' },
+        { number: 4, title: 'Progress', description: 'Regular progress tracking' }
+    ];
+
+    // Function to render steps
+    function renderSteps() {
+        const stepsContainer = document.querySelector('.process-steps');
+        stepsContainer.innerHTML = ''; // Clear existing content
+        stepsData.forEach((step, index) => {
+            const stepElement = document.createElement('div');
+            stepElement.classList.add('step');
+            stepElement.id = 'step' + (index + 1);
+            // Set the first step as active initially
+            if (index === 0) {
+                stepElement.classList.add('active');
+            }
+            stepElement.innerHTML = `
+                <div class="step-number">${step.number}</div>
+                <div class="step-title">${step.title}</div>
+            `;
+            stepsContainer.appendChild(stepElement);
+        });
+    }
+
+    // Get plan data from localStorage and populate the page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Log to confirm DOMContentLoaded is fired
+        console.log('DOMContentLoaded fired in annual-process.ejs');
+
+        // Render steps first
+        renderSteps();
+
+        try {
+            const selectedPlan = JSON.parse(localStorage.getItem('selectedAnnualPlan')); // Get annual plan
+            if (selectedPlan) {
+                document.getElementById('plan-name').textContent = selectedPlan.name + ' - $' + selectedPlan.price; // Display price without /month
+                // Get features based on plan name
+                const features = {
+                    '3 Months': [
+                        'All Basic plan features',
+                        'Short-term commitment',
+                        'Perfect for trying us out',
+                        'No long-term contract'
+                    ],
+                    '6 Months': [
+                        'All Pro plan features',
+                        'Best value for money',
+                        'Free fitness assessment',
+                        '2 free personal training sessions'
+                    ],
+                    '12 Months': [
+                        'All Premium plan features',
+                        'Maximum savings',
+                        'Free locker for duration',
+                        '5 free guest passes',
+                        'Monthly body composition analysis'
+                    ]
+                };
+                document.getElementById('plan-features').textContent = features[selectedPlan.name].join(', ');
+                
+                // Set the planId hidden input value
+                document.getElementById('selectedPlanId').value = selectedPlan.id;
+
+            } else {
+                // If no plan is selected, redirect back to membership page
+                window.location.href = '/membership';
+            }
+        } catch (error) {
+            console.error('Error loading annual plan data:', error);
+            window.location.href = '/membership';
+        }
+
+        // Render trainers, classes, and set start date
+        renderTrainers();
+        renderClasses();
+        setStartDate();
+
+        // Attach real-time validation for email input
+        validateInput(document.getElementById('payment-email'), function(value) {
+            return isValidEmail(value);
+        });
+    });
+
+    // Add functions for trainer and class selection
+    let selectedTrainer = null;
+    let selectedClasses = [];
+
+    // Trainer data (hardcoded based on app.js data)
+    const trainersData = [
+        {
+            name: 'Alex Johnson',
+            image: 'coach-alex.jpg',
+            specialty: 'Strength Training',
+            experience: 8
+        },
+        {
+            name: 'Sarah Williams',
+            image: 'coach-sarah.jpg',
+            specialty: 'Yoga & Flexibility',
+            experience: 6
+        },
+        {
+            name: 'John Doe',
+            image: 'coach-john.jpg',
+            specialty: 'HIIT & Cardio',
+            experience: 10
+        }
+    ];
+
+    // Class data (hardcoded based on app.js data)
+    const classesData = [
+        {
+            name: 'Yoga Flow',
+            image: 'yoga.jpg',
+            schedule: 'Mon, Wed, Fri 9:00 AM',
+            description: 'Perfect for all levels'
+        },
+        {
+            name: 'HIIT Training',
+            image: 'hiit.jpg',
+            schedule: 'Tue, Thu 6:00 PM',
+            description: 'High-intensity interval training'
+        },
+        {
+            name: 'Strength Training',
+            image: 'strength training.jpg',
+            schedule: 'Mon, Wed, Fri 5:00 PM',
+            description: 'Build strength and endurance'
+        }
+    ];
+
+    // Function to render trainers
+    function renderTrainers() {
+        const trainersGrid = document.querySelector('.trainers-grid');
+        trainersGrid.innerHTML = ''; // Clear existing content
+        trainersData.forEach(trainer => {
+            const trainerCard = document.createElement('div');
+            trainerCard.classList.add('trainer-card');
+            trainerCard.onclick = () => selectTrainer(trainerCard, trainer.name);
+            trainerCard.innerHTML = `
+                <img src="/images/${trainer.image}" alt="${trainer.name}" class="trainer-img">
+                <h3>${trainer.name}</h3>
+                <p>Specialty: ${trainer.specialty}</p>
+                <p>Experience: ${trainer.experience} years</p>
+            `;
+            trainersGrid.appendChild(trainerCard);
+        });
+        // Add the 'No Trainer' card
+        const noTrainerCard = document.createElement('div');
+        noTrainerCard.classList.add('trainer-card');
+        noTrainerCard.onclick = () => selectTrainer(noTrainerCard, 'No Trainer');
+        noTrainerCard.innerHTML = `
+            <div class="trainer-img" style="background-color: var(--bg-color); display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user-slash" style="font-size: 3rem; color: var(--main-color);"></i>
+            </div>
+            <h3>No Trainer</h3>
+            <p>I'll train on my own</p>
+        `;
+        trainersGrid.appendChild(noTrainerCard);
+    }
+
+    // Function to render classes
+    function renderClasses() {
+        const classesGrid = document.querySelector('.classes-grid');
+        classesGrid.innerHTML = ''; // Clear existing content
+        classesData.forEach(classItem => {
+            const classCard = document.createElement('div');
+            classCard.classList.add('class-card');
+            classCard.onclick = () => toggleClassSelection(classCard, classItem.name);
+            classCard.innerHTML = `
+                <img src="/images/${classItem.image}" alt="${classItem.name}" class="class-img">
+                <h3>${classItem.name}</h3>
+                <p>${classItem.schedule}</p>
+                <p>${classItem.description}</p>
+            `;
+            classesGrid.appendChild(classCard);
+        });
+    }
+
+    // Function to set the start date
+    function setStartDate() {
+        const today = new Date();
+        document.getElementById('start-date').textContent = today.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    // Existing selectTrainer, toggleClassSelection, nextStep, prevStep, submitPayment functions...
+    function selectTrainer(element, trainerName) {
+        // Remove selection from all trainers
+        document.querySelectorAll('.trainer-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        // Add selection to clicked trainer
+        element.classList.add('selected');
+        selectedTrainer = trainerName;
+        // Update hidden input for trainerId (assuming trainerName can be used as ID or you have trainer objects with IDs)
+        // For now, I'll just set the name, you might need to adjust if using IDs
+        document.getElementById('selectedTrainerId').value = trainerName;
+    }
+
+    function toggleClassSelection(element, className) {
+        element.classList.toggle('selected');
+        if (element.classList.contains('selected')) {
+            selectedClasses.push(className);
+        } else {
+            selectedClasses = selectedClasses.filter(c => c !== className);
+        }
+        // Update hidden input for classIds
+        document.getElementById('selectedClassIds').value = selectedClasses.join(',');
+    }
+
+    function nextStep(nextSectionId, nextStepId) {
+        // Hide current section and show next
+        document.querySelector('.active-section').classList.remove('active-section');
+        document.getElementById(nextSectionId).classList.add('active-section');
+        
+        // Update step indicator
+        document.querySelector('.step.active').classList.remove('active');
+        document.getElementById(nextStepId).classList.add('active');
+    }
+
+    function prevStep(prevSectionId, prevStepId) {
+        // Hide current section and show previous
+        document.querySelector('.active-section').classList.remove('active-section');
+        document.getElementById(prevSectionId).classList.add('active-section');
+        
+        // Update step indicator
+        document.querySelector('.step.active').classList.remove('active');
+        document.getElementById(prevStepId).classList.add('active');
+    }
+
+    function submitPayment() {
+        // This function is no longer needed as the form submission is handled by the browser
+        // after setting hidden input values.
+        // However, if you need client-side validation before submission, you can add it here
+        // and return false if validation fails to prevent form submission.
+
+        // Example validation (basic check if trainer/classes are selected if needed)
+        // if (selectedTrainer === null) {
+        //     alert('Please select a trainer.');
+        //     return false;
+        // }
+        // if (selectedClasses.length === 0) {
+        //     alert('Please select at least one class.');
+        //     return false;
+        // }
+        
+        // The form will be submitted automatically if this function doesn't return false
+    }
+
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvv = document.getElementById('cvv').value;
+        const cardName = document.getElementById('card-name').value;
+        const email = document.getElementById('payment-email').value;
+
+        let isValid = true;
+        let errorMessage = '';
+
+        // Reset all validation classes
+        document.querySelectorAll('.form-group input').forEach(input => {
+            input.classList.remove('valid', 'invalid');
+        });
+
+        // Card Number validation (16 digits)
+        const cardNumberInput = document.getElementById('card-number');
+        const digitsOnly = cardNumber.replace(/\s/g, '');
+        if (digitsOnly.length !== 16 || !/^\d+$/.test(digitsOnly)) {
+            errorMessage += 'Please enter a valid 16-digit card number.\n';
+            isValid = false;
+            cardNumberInput.classList.add('invalid');
+        } else {
+            cardNumberInput.classList.add('valid');
+        }
+
+        // Expiry Date validation
+        const expiryDateInput = document.getElementById('expiry-date');
+        if (!isValidExpiryDate(expiryDate)) {
+            errorMessage += 'Please enter a valid expiry date (MM/YY) that is not expired and not more than 10 years in the future.\n';
+            isValid = false;
+            expiryDateInput.classList.add('invalid');
+        } else {
+            expiryDateInput.classList.add('valid');
+        }
+
+        // CVV validation (3 digits)
+        const cvvInput = document.getElementById('cvv');
+        if (!/^\d{3}$/.test(cvv)) {
+            errorMessage += 'Please enter a valid 3-digit CVV.\n';
+            isValid = false;
+            cvvInput.classList.add('invalid');
+        } else {
+            cvvInput.classList.add('valid');
+        }
+
+        // Card Name validation
+        const cardNameInput = document.getElementById('card-name');
+        if (!cardName.trim()) {
+            errorMessage += 'Please enter the name on card.\n';
+            isValid = false;
+            cardNameInput.classList.add('invalid');
+        } else {
+            cardNameInput.classList.add('valid');
+        }
+
+        // Email validation (standard, requires dot and TLD)
+        const emailInput = document.getElementById('payment-email');
+        if (!isValidEmail(email)) {
+            errorMessage += 'Please enter a valid email address.\n';
+            isValid = false;
+            emailInput.classList.add('invalid');
+        } else {
+            emailInput.classList.add('valid');
+        }
+
+        if (!isValid) {
+            alert(errorMessage);
+            return;
+        }
+
+        // If all validations pass, submit the form
+        this.submit();
+    });
+
+    // Add real-time validation for inputs
+    function validateInput(input, validationFn) {
+        input.addEventListener('input', function() {
+            if (validationFn(this.value)) {
+                this.classList.remove('invalid');
+                this.classList.add('valid');
+            } else {
+                this.classList.remove('valid');
+                this.classList.add('invalid');
+            }
+        });
+    }
+
+    // Card Number validation
+    validateInput(document.getElementById('card-number'), function(value) {
+        // Remove spaces and check for exactly 16 digits
+        const digitsOnly = value.replace(/\s/g, '');
+        return digitsOnly.length === 16 && /^\d+$/.test(digitsOnly);
+    });
+
+    // Function to validate expiry date
+    function isValidExpiryDate(value) {
+        // Check format MM/YY
+        if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(value)) {
+            return false;
+        }
+
+        const [month, year] = value.split('/');
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits of year
+        const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11
+
+        // Convert to numbers
+        const expMonth = parseInt(month);
+        const expYear = parseInt(year);
+
+        // Check if date is in the future
+        if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+            return false;
+        }
+
+        // Check if year is not too far in the future (e.g., not more than 10 years)
+        if (expYear > currentYear + 10) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Update expiry date validation
+    validateInput(document.getElementById('expiry-date'), function(value) {
+        return isValidExpiryDate(value);
+    });
+
+    // CVV validation
+    validateInput(document.getElementById('cvv'), function(value) {
+        return /^\d{3}$/.test(value);
+    });
+
+    // Card Name validation
+    validateInput(document.getElementById('card-name'), function(value) {
+        return value.trim().length > 0;
+    });
+
+    // Email validation (standard, requires dot and TLD)
+    function isValidEmail(email) {
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    }
+
+    // Update email validation
+    validateInput(document.getElementById('payment-email'), function(value) {
+        return isValidEmail(value);
+    });
+
+    // Add input formatting for card number
+    document.getElementById('card-number').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+        if (value.length > 16) value = value.slice(0, 16); // Limit to 16 digits
+        // Add space after every 4 digits
+        value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+        e.target.value = value;
+    });
+    document.getElementById('card-number').setAttribute('maxlength', '19'); // 16 digits + 3 spaces
+
+    // Improved expiry date input: restrict month to 01-12 as you type
+    document.getElementById('expiry-date').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^\d]/g, ''); // Only digits
+        if (value.length === 1) {
+            if (!/[01]/.test(value)) value = '';
+        } else if (value.length === 2) {
+            if (parseInt(value, 10) < 1 || parseInt(value, 10) > 12) value = value[0];
+        }
+        if (value.length > 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        }
+        e.target.value = value;
+    });
+    document.getElementById('expiry-date').setAttribute('maxlength', '5');
+
+    // Improved email validation regex (standard, requires dot and TLD)
+    function isValidEmail(email) {
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    }
+
+    // Update email validation
+    validateInput(document.getElementById('payment-email'), function(value) {
+        return isValidEmail(value);
+    });
+
+    // Update the form submission validation for email
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvv = document.getElementById('cvv').value;
+        const cardName = document.getElementById('card-name').value;
+        const email = document.getElementById('payment-email').value;
+        let isValid = true;
+        let errorMessage = '';
+        document.querySelectorAll('.form-group input').forEach(input => {
+            input.classList.remove('valid', 'invalid');
+        });
+        // Card Number validation (16 digits)
+        const cardNumberInput = document.getElementById('card-number');
+        const digitsOnly = cardNumber.replace(/\s/g, '');
+        if (digitsOnly.length !== 16 || !/^\d+$/.test(digitsOnly)) {
+            errorMessage += 'Please enter a valid 16-digit card number.\n';
+            isValid = false;
+            cardNumberInput.classList.add('invalid');
+        } else {
+            cardNumberInput.classList.add('valid');
+        }
+        // Expiry Date validation
+        const expiryDateInput = document.getElementById('expiry-date');
+        if (!isValidExpiryDate(expiryDate)) {
+            errorMessage += 'Please enter a valid expiry date (MM/YY) that is not expired and not more than 10 years in the future.\n';
+            isValid = false;
+            expiryDateInput.classList.add('invalid');
+        } else {
+            expiryDateInput.classList.add('valid');
+        }
+        // CVV validation (3 digits)
+        const cvvInput = document.getElementById('cvv');
+        if (!/^\d{3}$/.test(cvv)) {
+            errorMessage += 'Please enter a valid 3-digit CVV.\n';
+            isValid = false;
+            cvvInput.classList.add('invalid');
+        } else {
+            cvvInput.classList.add('valid');
+        }
+        // Card Name validation
+        const cardNameInput = document.getElementById('card-name');
+        if (!cardName.trim()) {
+            errorMessage += 'Please enter the name on card.\n';
+            isValid = false;
+            cardNameInput.classList.add('invalid');
+        } else {
+            cardNameInput.classList.add('valid');
+        }
+        // Email validation
+        const emailInput = document.getElementById('payment-email');
+        if (!isValidEmail(email)) {
+            errorMessage += 'Please enter a valid email address.\n';
+            isValid = false;
+            emailInput.classList.add('invalid');
+        } else {
+            emailInput.classList.add('valid');
+        }
+        if (!isValid) {
+            alert(errorMessage);
+            return;
+        }
+        this.submit();
+    });
+</script>
+</body>
+</html>

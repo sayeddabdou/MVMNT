@@ -1,0 +1,339 @@
+<!-- Members Management Section -->
+<section class="admin-section">
+    <h1 class="section-title">Gym Members</h1>
+
+    <div class="analytics-bar" id="analytics-bar">
+        <div>Total: <span id="total-count"><%= stats.total %></span></div>
+        <div>Active: <span id="active-count"><%= stats.active %></span></div>
+        <div>Expired: <span id="expired-count"><%= stats.expired %></span></div>
+        <div>Most Popular: <span id="popular-type"><%= stats.mostPopular %></span></div>
+    </div>
+
+    <div class="action-bar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="member-search" placeholder="Search members by name, email, or ID..." />
+        </div>
+        <select id="membership-filter" class="filter-btn">
+            <option value="">All Memberships</option>
+            <% membershipTypes.forEach(type => { %>
+                <option value="<%= type %>"><%= type %></option>
+            <% }); %>
+        </select>
+        <select id="status-filter" class="filter-btn">
+            <option value="">All Statuses</option>
+            <% statusTypes.forEach(status => { %>
+                <option value="<%= status %>"><%= status %></option>
+            <% }); %>
+        </select>
+        <button class="delete-selected-btn" id="delete-selected">Delete Selected</button>
+        <!-- <button class="btn" id="export-csv">Export CSV</button>
+        <input type="file" id="import-csv" accept=".csv" style="display:none;"> -->
+        <!-- <button class="add-btn" onclick="document.getElementById('import-csv').click()">Import CSV</button> -->
+        <button class="btn" onclick="document.getElementById('activity-log').classList.add('show')">View Logs</button>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <div><input type="checkbox" id="select-all"></div>
+            <div>ID</div>
+            <div>Name</div>
+            <div>Email</div>
+            <div>Membership</div>
+            <div>Status</div>
+            <div>Registered</div>
+            <div>Enrolled Classes</div>
+            <div>Actions</div>
+        </div>
+        <div class="table-body" id="member-table-body">
+            <% members.forEach(member => { %>
+                <div class="table-row">
+                    <div><input type="checkbox" class="member-select" data-id="<%= member.id %>"></div>
+                    <div><%= member.id %></div>
+                    <div><%= member.name %></div>
+                    <div><%= member.email %></div>
+                    <div><%= member.membershipType %></div>
+                    <div class="status <%= member.status.toLowerCase() %>"><%= member.status %></div>
+                    <div><%= member.registeredDate %></div>
+                    <div><%= member.enrolledClasses.length %></div>
+                    <div class="actions">
+                        <button class="action-btn view-member" data-id="<%= member.id %>" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-member" data-id="<%= member.id %>" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-member" data-id="<%= member.id %>" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <div class="pagination" id="pagination">
+        <% for(let i = 1; i <= totalPages; i++) { %>
+            <button class="page-btn <%= currentPage === i ? 'active' : '' %>" data-page="<%= i %>"><%= i %></button>
+        <% } %>
+    </div>
+</section>
+
+<!-- Add/Edit Member Modal -->
+<div id="member-modal" class="modal">
+    <div class="modal-box">
+        <span class="close-btn">&times;</span>
+        <h2 id="modal-title">Add New Member</h2>
+        <form id="member-form" action="/admin/members" method="POST">
+            <input type="hidden" name="_method" value="POST">
+            <input type="hidden" name="memberId" id="member-id">
+            
+            <div class="form-group">
+                <label for="member-name">Full Name</label>
+                <input type="text" id="member-name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="member-email">Email</label>
+                <input type="email" id="member-email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="member-type">Membership Type</label>
+                <select id="member-type" name="membershipType" required>
+                    <option value="">Select Membership Type</option>
+                    <% membershipTypes.forEach(type => { %>
+                        <option value="<%= type %>"><%= type %></option>
+                    <% }); %>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="member-status">Status</label>
+                <select id="member-status" name="status" required>
+                    <option value="">Select Status</option>
+                    <% statusTypes.forEach(status => { %>
+                        <option value="<%= status %>"><%= status %></option>
+                    <% }); %>
+                </select>
+            </div>
+            
+            <div class="benefits-tracking">
+                <h3>Membership Benefits</h3>
+                <div class="form-group">
+                    <label for="class-limit">Monthly Class Limit:</label>
+                    <input type="number" id="class-limit" name="classLimit" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="classes-attended">Classes Attended:</label>
+                    <input type="number" id="classes-attended" name="classesAttended" min="0" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="equipment-access">Equipment Access Level:</label>
+                    <select id="equipment-access" name="equipmentAccess">
+                        <% equipmentAccessLevels.forEach(level => { %>
+                            <option value="<%= level.value %>"><%= level.label %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="trainer-sessions">Remaining PT Sessions:</label>
+                    <input type="number" id="trainer-sessions" name="trainerSessions" min="0">
+                </div>
+            </div>
+            
+            <button type="submit" class="save-btn">Save Member</button>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="confirm-member-modal" class="modal">
+    <div class="modal-box">
+        <h3>Are you sure you want to delete this member?</h3>
+        <div class="modal-actions">
+            <form action="/admin/members/delete" method="POST" id="delete-member-form">
+                <input type="hidden" name="memberId" id="delete-member-id">
+                <button type="submit" class="btn delete-btn">Yes, Delete</button>
+                <button type="button" class="btn cancel-btn" id="cancel-delete-member">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Member Profile Modal -->
+<div id="profile-modal" class="modal">
+    <div class="modal-box">
+        <span class="close-btn" id="profile-close">&times;</span>
+        <h2>Member Profile</h2>
+        <div id="profile-content">
+            <div class="profile-header">
+                <img src="/images/members/<%= member.profileImage %>" alt="<%= member.name %>" class="profile-image">
+                <div class="profile-info">
+                    <h3><%= member.name %></h3>
+                    <p><%= member.email %></p>
+                    <p>Member since: <%= member.registeredDate %></p>
+                </div>
+            </div>
+            <div class="profile-details">
+                <div class="detail-group">
+                    <label>Membership Type:</label>
+                    <span><%= member.membershipType %></span>
+                </div>
+                <div class="detail-group">
+                    <label>Status:</label>
+                    <span class="status <%= member.status.toLowerCase() %>"><%= member.status %></span>
+                </div>
+                <div class="detail-group">
+                    <label>Classes Attended:</label>
+                    <span><%= member.classesAttended %></span>
+                </div>
+                <div class="detail-group">
+                    <label>Remaining PT Sessions:</label>
+                    <span><%= member.trainerSessions %></span>
+                </div>
+            </div>
+        </div>
+        <div class="enrolled-classes-section">
+            <h3>Enrolled Classes</h3>
+            <div id="member-classes-list">
+                <% member.enrolledClasses.forEach(cls => { %>
+                    <div class="class-item">
+                        <div class="class-info">
+                            <h4><%= cls.name %></h4>
+                            <p><%= cls.schedule %></p>
+                        </div>
+                        <span class="class-status <%= cls.status.toLowerCase() %>"><%= cls.status %></span>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Activity Log Modal -->
+<div id="activity-log" class="modal">
+    <div class="modal-box">
+        <span class="close-btn" onclick="document.getElementById('activity-log').classList.remove('show')">&times;</span>
+        <h2>Activity Log</h2>
+        <div id="activity-log-content">
+            <% if (activityLogs.length > 0) { %>
+                <% activityLogs.forEach(log => { %>
+                    <div class="log-entry">
+                        <span class="log-time"><%= log.timestamp %></span>
+                        <span class="log-action"><%= log.action %></span>
+                        <span class="log-details"><%= log.details %></span>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No activity yet.</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Popup -->
+<div id="popup-notification"></div>
+
+<%- contentFor('scripts') %>
+<script src="/js/admin-members.js"></script>
+
+<style>
+.action-btn {
+    padding: 8px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2c3338;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #00ffff;
+    color: #2c3338;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: auto auto 2fr 2fr 1fr 1fr 1fr 1fr auto;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #2c3338;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: auto auto 2fr 2fr 1fr 1fr 1fr 1fr auto;
+    align-items: center;
+    padding: 12px;
+    background-color: #2c3338;
+    color: #00ffff;
+    font-weight: bold;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background-color: #1a1d21;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 400px;
+    max-width: 600px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #00ffff;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status.active {
+    background-color: #28a745;
+    color: white;
+}
+
+.status.expired {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status.pending {
+    background-color: #ffc107;
+    color: black;
+}
+</style> 

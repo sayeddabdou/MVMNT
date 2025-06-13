@@ -1,0 +1,87 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+        <a href="/" class="logo">MVMNT</a>
+    </div>
+    <div class="navbar-menu">
+        <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a>
+        <a href="/locations" class="<%= currentPage === 'locations' ? 'active' : '' %>">Locations</a>
+        <a href="/classes" class="<%= currentPage === 'classes' ? 'active' : '' %>">Classes</a>
+        <a href="/our-team" class="<%= currentPage === 'our-team' ? 'active' : '' %>">Our Team</a>
+        <a href="/membership" class="<%= currentPage === 'membership' ? 'active' : '' %>">Membership</a>
+        <a href="/shop" class="<%= currentPage === 'shop' ? 'active' : '' %>">Shop</a>
+    </div>
+    <div class="navbar-end">
+        <a href="/my-account" class="btn btn-secondary">My Account</a>
+        <a href="/logout" class="btn btn-primary">Log Out</a>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .navbar-brand .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--main-color);
+        text-decoration: none;
+        letter-spacing: 2px;
+    }
+
+    .navbar-menu {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .navbar-menu a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-menu a:hover,
+    .navbar-menu a.active {
+        color: var(--main-color);
+    }
+
+    .navbar-end {
+        display: flex;
+        gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .navbar-menu {
+            flex-direction: column;
+            align-items: center;
+            margin: 1rem 0;
+            gap: 1rem;
+        }
+
+        .navbar-end {
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 0.5rem;
+        }
+
+        .navbar-end .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style> 

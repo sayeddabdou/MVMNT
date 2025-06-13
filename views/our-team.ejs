@@ -1,0 +1,84 @@
+<section class="team-section">
+    <h1>OUR TEAM</h1>
+    <p>
+        Our aim is to make you achieve your outmost wellbeing with a complete team of professionals 
+        taking care of your everyday need. At every step of the way, you'll be driven by a passionate 
+        trainer creating a plan tailored to your goals.
+    </p>
+
+    <!-- Team Categories Section -->
+    <section class="class-categories">
+        <h2>Expert Coaches</h2>
+        <div class="category-list">
+            <% const coaches = [
+                {
+                    name: 'Emily Smith',
+                    image: 'coach-emily.jpg',
+                    specialty: 'Yoga & Pilates',
+                    experience: '8 years',
+                    certification: 'RYT 500',
+                    bookingLink: '/booking/emily'
+                },
+                {
+                    name: 'John Doe',
+                    image: 'coach-john.jpg',
+                    specialty: 'HIIT & Strength',
+                    experience: '10 years',
+                    certification: 'ACE, CrossFit L2',
+                    bookingLink: '/booking/john'
+                },
+                {
+                    name: 'Ryan Clark',
+                    image: 'coach-ryan.jpg',
+                    specialty: 'Calisthenics',
+                    experience: '6 years',
+                    certification: 'NASM',
+                    bookingLink: '/booking/ryan'
+                },
+                {
+                    name: 'Laura White',
+                    image: 'coach-laura.jpg',
+                    specialty: 'CrossFit',
+                    experience: '7 years',
+                    certification: 'CrossFit L3',
+                    bookingLink: '/booking/laura'
+                },
+                {
+                    name: 'Sarah Lee',
+                    image: 'coach-sarah.jpg',
+                    specialty: 'Pilates',
+                    experience: '5 years',
+                    certification: 'PMA-CPT',
+                    bookingLink: '/booking/sarah'
+                },
+                {
+                    name: 'Alex Green',
+                    image: 'coach-alex.jpg',
+                    specialty: 'Boxing',
+                    experience: '9 years',
+                    certification: 'USA Boxing',
+                    bookingLink: '/booking/alex'
+                }
+            ]; %>
+
+            <% coaches.forEach(coach => { %>
+                <div class="flip-card" onclick="openCoachModal('<%= coach.name.toLowerCase().split(' ')[0] %>')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="background-image: url('/images/<%= coach.image %>')">
+                            <div class="content-overlay">
+                                <h3><%= coach.name %></h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3><%= coach.name %></h3>
+                            <p><strong>Specialty:</strong> <%= coach.specialty %></p>
+                            <p><strong>Experience:</strong> <%= coach.experience %></p>
+                            <p><strong>Certification:</strong> <%= coach.certification %></p>
+                            <a href="<%= coach.bookingLink %>" class="book-now-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </section>
+</section> 

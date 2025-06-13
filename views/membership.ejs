@@ -1,0 +1,222 @@
+<!-- Membership Plans Section -->
+<section class="classes">
+    <h2>Membership Plans</h2>
+    <div class="plans">
+        <% const monthlyPlans = [
+            {
+                id: 1,
+                name: 'Basic',
+                price: '29.99',
+                featured: false,
+                features: [
+                    'Access to gym facilities',
+                    'Standard workout equipment',
+                    'Locker room access',
+                    'Basic fitness assessment',
+                    'Email support'
+                ]
+            },
+            {
+                name: 'Pro',
+                price: '49.99',
+                featured: true,
+                features: [
+                    'All Basic plan features',
+                    'Unlimited group classes',
+                    'Personalized workout plan',
+                    'Sauna & steam room access',
+                    'Priority support',
+                    '1 free personal training session'
+                ]
+            },
+            {
+                name: 'Premium',
+                price: '79.99',
+                featured: false,
+                features: [
+                    'All Pro plan features',
+                    'Unlimited personal training',
+                    '24/7 gym access',
+                    'Nutritional counseling',
+                    'VIP locker',
+                    'Complimentary towels & drinks',
+                    '3 free guest passes/month'
+                ]
+            }
+        ]; %>
+
+        <% monthlyPlans.forEach(plan => { %>
+            <div class="plan <%= plan.featured ? 'featured-plan' : '' %>">
+                <% if (plan.featured) { %>
+                <% } %>
+                <h3><%= plan.name %></h3>
+                <div class="price">$<%= plan.price %>/m</div>
+                <div class="features">
+                    <ul>
+                        <% plan.features.forEach(feature => { %>
+                            <li><%= feature %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+                <button class="book-now-btn" onclick="selectPlan('<%= plan.name %>', '<%= plan.price %>')">Get Started</button>
+            </div>
+        <% }); %>
+    </div>
+
+    <!-- Annual Plans Section -->
+    <h2 style="margin-top: 8rem;">Annual Plans (Save 20%)</h2>
+    <div class="plans">
+        <% const annualPlans = [
+            {
+                id: 4,
+                name: '3 Months',
+                price: '100',
+                features: [
+                    'All Basic plan features',
+                    'Short-term commitment',
+                    'Perfect for trying us out',
+                    'No long-term contract'
+                ]
+            },
+            {
+                name: '6 Months',
+                price: '250',
+                features: [
+                    'All Pro plan features',
+                    'Best value for money',
+                    'Free fitness assessment',
+                    '2 free personal training sessions'
+                ]
+            },
+            {
+                name: '12 Months',
+                price: '450',
+                features: [
+                    'All Premium plan features',
+                    'Maximum savings',
+                    'Free locker for duration',
+                    '5 free guest passes',
+                    'Monthly body composition analysis'
+                ]
+            }
+        ]; %>
+
+        <% annualPlans.forEach(plan => { %>
+            <div class="plan">
+                <h3><%= plan.name %></h3>
+                <div class="price">$<%= plan.price %></div>
+                <div class="features">
+                    <ul>
+                        <% plan.features.forEach(feature => { %>
+                            <li><%= feature %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+                <button class="book-now-btn" onclick="selectPlan('<%= plan.name %>', '<%= plan.price %>')">Get Started</button>
+            </div>
+        <% }); %>
+    </div>
+</section>
+
+<%- contentFor('scripts') %>
+<script>
+    // Store selected plan and redirect to process page
+    function selectPlan(planName, planPrice) {
+        // Find the selected plan object
+        const monthlyPlans = [
+            {
+                id: 1,
+                name: 'Basic',
+                price: '29.99',
+                featured: false,
+                features: [
+                    'Access to gym facilities',
+                    'Standard workout equipment',
+                    'Locker room access',
+                    'Basic fitness assessment',
+                    'Email support'
+                ]
+            },
+            {
+                id: 2,
+                name: 'Pro',
+                price: '49.99',
+                featured: true,
+                features: [
+                    'All Basic plan features',
+                    'Unlimited group classes',
+                    'Personalized workout plan',
+                    'Sauna & steam room access',
+                    'Priority support',
+                    '1 free personal training session'
+                ]
+            },
+            {
+                id: 3,
+                name: 'Premium',
+                price: '79.99',
+                featured: false,
+                features: [
+                    'All Pro plan features',
+                    'Unlimited personal training',
+                    '24/7 gym access',
+                    'Nutritional counseling',
+                    'VIP locker',
+                    'Complimentary towels & drinks',
+                    '3 free guest passes/month'
+                ]
+            }
+        ];
+
+        const annualPlans = [
+            {
+                id: 4,
+                name: '3 Months',
+                price: '100',
+                features: [
+                    'All Basic plan features',
+                    'Short-term commitment',
+                    'Perfect for trying us out',
+                    'No long-term contract'
+                ]
+            },
+            {
+                id: 5,
+                name: '6 Months',
+                price: '250',
+                features: [
+                    'All Pro plan features',
+                    'Best value for money',
+                    'Free fitness assessment',
+                    '2 free personal training sessions'
+                ]
+            },
+            {
+                id: 6,
+                name: '12 Months',
+                price: '450',
+                features: [
+                    'All Premium plan features',
+                    'Maximum savings',
+                    'Free locker for duration',
+                    '5 free guest passes',
+                    'Monthly body composition analysis'
+                ]
+            }
+        ];
+
+        const allPlans = [...monthlyPlans, ...annualPlans];
+        const selectedPlan = allPlans.find(plan => plan.name === planName && plan.price === planPrice);
+
+        // Check if it's an annual plan
+        const isAnnualPlan = ['3 Months', '6 Months', '12 Months'].includes(planName);
+        
+        if (isAnnualPlan) {
+            localStorage.setItem('selectedAnnualPlan', JSON.stringify(selectedPlan)); // Store the whole plan object
+            window.location.href = '/annual-process';
+        } else {
+            localStorage.setItem('selectedPlan', JSON.stringify(selectedPlan)); // Store the whole plan object
+            window.location.href = '/process';
+        }
+    }
+</script> 

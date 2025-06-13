@@ -1,0 +1,33 @@
+<%- include('booking-class', {
+    classData: {
+        id: 'hiit',
+        name: 'HIIT',
+        type: 'High Intensity Training',
+        difficulty: 'Advanced Level',
+        calories: '500',
+        duration: '45',
+        location: 'Main Studio',
+        capacity: '20',
+        image: 'HIIT.jpg',
+        description: 'High-intensity interval training (HIIT) is perfect for burning fat and improving cardiovascular health. Each session is 45 minutes of intense, calorie-burning workouts.',
+        benefits: [
+            'Increased metabolism and fat burning',
+            'Improved cardiovascular endurance',
+            'Enhanced strength and power',
+            'Time-efficient workout',
+            'Continued calorie burn after workout'
+        ],
+        trainers: [
+            {
+                name: 'John Doe',
+                role: 'Lead HIIT Instructor',
+                image: 'coach-john.jpg'
+            },
+            {
+                name: 'Alex Green',
+                role: 'HIIT Specialist',
+                image: 'coach-alex.jpg'
+            }
+        ]
+    }
+}) %> 

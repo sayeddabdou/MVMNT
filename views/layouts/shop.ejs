@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVMNT Gym Shop - <%= title %></title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/style-shop.css">
+</head>
+<body>
+    <!-- Shop Header -->
+    <header class="shop-header">
+        <a href="/shop" class="logo">MVMNT <span>SHOP</span></a>
+        
+        <nav class="main-nav">
+            <% const shopNavItems = [
+                { path: '/all-products', label: 'All Products' },
+                { path: '/equipment', label: 'Equipment' },
+                { path: '/supplements', label: 'Supplements' },
+                { path: '/on-sale', label: 'On Sale' }
+            ]; %>
+            
+            <% shopNavItems.forEach(item => { %>
+                <a href="<%= item.path %>" class="<%= currentPage === item.path.substring(1) ? 'active' : '' %>">
+                    <%= item.label %>
+                </a>
+            <% }); %>
+        </nav>
+
+        <div class="cart-icon">
+            <i class='bx bx-cart'></i>
+            <span class="cart-count">0</span>
+        </div>
+    </header>
+    
+    <%- body %>
+    
+    <!-- Shop Footer -->
+    <footer class="shop-footer">
+        <div class="footer-logo">MVMNT <span>SHOP</span></div>
+        
+        <div class="footer-links">
+            <% shopNavItems.forEach(item => { %>
+                <a href="<%= item.path %>"><%= item.label %></a>
+            <% }); %>
+            <a href="/contact">Contact</a>
+        </div>
+        
+        <div class="social-links">
+            <a href="#"><i class='bx bxl-facebook'></i></a>
+            <a href="#"><i class='bx bxl-instagram'></i></a>
+            <a href="#"><i class='bx bxl-twitter'></i></a>
+            <a href="#"><i class='bx bxl-youtube'></i></a>
+        </div>
+        
+        <p class="copyright">© <%= new Date().getFullYear() %> MVMNT Gym Shop. All rights reserved.</p>
+    </footer>
+    
+    <!-- Common Scripts -->
+    <script src="/js/script.js"></script>
+    <script src="/js/cart.js"></script>
+    <script src="/js/classes.js"></script>
+    <script src="/js/members.js"></script>
+    
+    <!-- Page-specific Scripts -->
+    <%- defineContent('scripts') %>
+</body>
+</html> 

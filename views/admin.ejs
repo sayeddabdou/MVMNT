@@ -1,0 +1,87 @@
+<!-- Admin Dashboard Section -->
+<section class="admin-dashboard">
+    <h1 class="dashboard-title">Dashboard Overview</h1>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <h2><%= stats.memberCount %></h2>
+            <p>Members</p>
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-card">
+            <h2><%= stats.classCount %></h2>
+            <p>Active Classes</p>
+            <i class="fas fa-dumbbell"></i>
+        </div>
+        <div class="stat-card">
+            <h2><%= stats.orderCount %></h2>
+            <p>Orders</p>
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-section recent-projects">
+            <h2>Recent Classes</h2>
+            <div class="projects-table">
+                <div class="table-header">
+                    <div>Class Name</div>
+                    <div>Coach</div>
+                    <div>Status</div>
+                    <div>Category</div>
+                </div>
+                <div class="table-body">
+                    <% recentClasses.forEach(cls => { %>
+                        <div class="table-row">
+                            <div><%= cls.name %></div>
+                            <div><%= cls.coach %></div>
+                            <div class="status <%= cls.status.toLowerCase() %>"><%= cls.status %></div>
+                            <div><%= cls.category %></div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-section quick-actions">
+            <h2>Quick Actions</h2>
+            <a href="/admin/classes" class="action-btn">
+                <i class="fas fa-plus"></i> Add Class
+            </a>
+            <a href="/admin/Shop" class="action-btn">
+                <i class="fas fa-user-plus"></i> Add Product
+            </a>
+            <a href="/admin/orders" class="action-btn">
+                <i class="fas fa-file-invoice"></i> Manage Orders
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Unified Activity & System Status Table -->
+<section class="unified-table-section">
+    <h2>Recent Activity & System Status</h2>
+    <div class="projects-table">
+        <div class="table-header">
+            <div>Type</div>
+            <div>Description / Status</div>
+            <div>Details / Time</div>
+        </div>
+        <div class="table-body">
+            <% activities.forEach(activity => { %>
+                <div class="table-row">
+                    <div><i class="<%= activity.icon %>"></i></div>
+                    <div><%= activity.description %></div>
+                    <div><%= activity.time %></div>
+                </div>
+            <% }); %>
+            <% systemStatus.forEach(status => { %>
+                <div class="table-row">
+                    <div><strong><%= status.title %></strong></div>
+                    <div><%= status.value %><br><small><%= status.description %></small></div>
+                    <div></div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section> 

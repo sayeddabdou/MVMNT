@@ -1,0 +1,84 @@
+<style>
+    .confirmation-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 40px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        color: white;
+    }
+
+    .confirmation-icon {
+        font-size: 64px;
+        color: #00ffff;
+        margin-bottom: 20px;
+    }
+
+    .confirmation-title {
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: #00ffff;
+    }
+
+    .confirmation-message {
+        font-size: 18px;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .confirmation-details {
+        background: rgba(0, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+
+    .confirmation-details h3 {
+        color: #00ffff;
+        margin-bottom: 15px;
+    }
+
+    .detail-item {
+        margin-bottom: 10px;
+    }
+
+    .back-home {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: #00ffff;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .back-home:hover {
+        background-color: #00cccc;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="confirmation-container">
+    <i class="fas fa-check-circle confirmation-icon"></i>
+    <h1 class="confirmation-title">Membership Confirmed!</h1>
+    
+    <div class="confirmation-message">
+        <p>Thank you for joining MVMNT Gym! Your membership has been successfully processed.</p>
+        <p>A confirmation email has been sent to your registered email address.</p>
+    </div>
+
+    <div class="confirmation-details">
+        <h3>Membership Details</h3>
+        <div class="detail-item">
+            <strong>Start Date:</strong> <%= new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </div>
+        <div class="detail-item">
+            <strong>Next Payment Date:</strong> <%= new Date(Date.now() + 30*24*60*60*1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </div>
+    </div>
+
+    <a href="/" class="back-home">Back to Home</a>
+</div>

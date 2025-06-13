@@ -1,0 +1,52 @@
+<!-- Locations Section -->
+<section class="locations-section">
+    <h2 class="h2location">CLUBS LOCATIONS</h2>
+    <p class="locations-intro">
+        We are now operating 4 unparalleled branches, in the most prominent locations in Cairo and Giza with an elegant feel and a powerful fitness community.
+    </p>
+    
+    <div class="location-cards-container">
+        <% const locations = [
+            {
+                name: 'New Giza',
+                frontImage: 'Newgiza1.png',
+                backImage: 'newgiza2.png',
+                mapLink: 'https://maps.app.goo.gl/5HmCoGeZeYxUftqG8'
+            },
+            {
+                name: 'Uptown Cairo',
+                frontImage: 'UPTOWN1.png',
+                backImage: 'uptownf.webp',
+                mapLink: 'https://maps.app.goo.gl/i4YtgV6cQQikfV8X8'
+            },
+            {
+                name: 'Arkan',
+                frontImage: 'arkan1.png',
+                backImage: 'arkan2.webp',
+                mapLink: 'https://maps.app.goo.gl/ZqhJEx1U1NeRWTA97'
+            },
+            {
+                name: 'Seashell',
+                frontImage: 'seashell1.png',
+                backImage: 'seashell2.png',
+                mapLink: 'https://maps.app.goo.gl/4bTDnkLQrDradyyK9'
+            }
+        ]; %>
+
+        <% locations.forEach(location => { %>
+            <div class="location-card">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="front">
+                            <img src="/images/<%= location.frontImage %>" alt="<%= location.name %> Front">
+                        </div>
+                        <div class="back">
+                            <img src="/images/<%= location.backImage %>" alt="<%= location.name %> Back">
+                            <a href="<%= location.mapLink %>" class="location-button" target="_blank">Click Here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section> 

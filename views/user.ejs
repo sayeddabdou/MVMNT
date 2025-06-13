@@ -1,0 +1,75 @@
+<!-- Dashboard Section -->
+<section class="dashboard">
+    <div class="dashboard-header">
+        <h1>Welcome Back!</h1>
+        <p>Track your fitness journey and manage your membership</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Profile Card -->
+        <div class="dashboard-card profile-card">
+            <div class="profile-header">
+                <img src="/images/unkown.jpg" alt="Profile" class="profile-image" id="profileImage">
+                <h2 id="userName">Loading...</h2>
+                <p class="membership-type" id="membershipType">Loading...</p>
+                <p class="member-since" id="memberSince">Member since: Loading...</p>
+            </div>
+            <div class="profile-actions">
+                <!-- <button class="dashboard-btn primary" onclick="editProfile()">Edit Profile</button> -->
+            </div>
+        </div>
+
+        <!-- Stats Card -->
+        <div class="dashboard-card stats-card">
+            <h3>Your Progress</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="classesAttended">0</div>
+                    <div class="stat-label">Classes Attended</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="hoursWorked">0</div>
+                    <div class="stat-label">Hours Worked Out</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="achievementsEarned">0</div>
+                    <div class="stat-label">Achievements</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="daysStreak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Classes Card -->
+        <div class="dashboard-card classes-card">
+            <h3>Upcoming Classes</h3>
+            <div class="classes-list" id="upcomingClasses">
+                <p class="empty-state">No upcoming classes scheduled</p>
+            </div>
+            <button class="dashboard-btn secondary" onclick="window.location.href='/classes'">Book a Class</button>
+        </div>
+
+        <!-- Membership Card -->
+        <div class="dashboard-card membership-card">
+            <h3>Membership Status</h3>
+            <div class="membership-details">
+                <div class="membership-info">
+                    <p><strong>Plan:</strong> <span id="membershipPlan">Loading...</span></p>
+                    <p><strong>Status:</strong> <span id="membershipStatus">Loading...</span></p>
+                    <p><strong>Next Payment:</strong> <span id="nextPayment">Loading...</span></p>
+                    <p><strong>Expiry Date:</strong> <span id="expiryDate">Loading...</span></p>
+                </div>
+                <button class="dashboard-btn primary" onclick="window.location.href='/membership'">Upgrade Plan</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- contentFor('scripts') %>
+<script>
+    // Embed user data from the server
+    const serverUserData = <%- JSON.stringify(userData) %>;
+</script>
+<script src="/js/dashboard.js"></script> 

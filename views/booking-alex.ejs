@@ -1,0 +1,55 @@
+<%- include('booking-trainer', {
+    trainer: {
+        id: 'alex',
+        name: 'Alex Green',
+        role: 'Lead Calisthenics Coach',
+        specialties: ['Calisthenics', 'Cycling', 'Strength Training'],
+        experience: '6 years',
+        image: 'coach-alex.jpg',
+        description: 'Alex specializes in calisthenics and bodyweight training, helping clients build strength and control through progressive movement patterns.',
+        classes: [
+            {
+                name: 'Calisthenics Basics',
+                schedule: 'Mon, Wed, Fri 4:00 PM',
+                duration: '45 mins',
+                level: 'Beginner'
+            },
+            {
+                name: 'Advanced Calisthenics',
+                schedule: 'Tue, Thu 5:00 PM',
+                duration: '60 mins',
+                level: 'Advanced'
+            }
+        ],
+        certifications: [
+            'Calisthenics Coach Certification',
+            'Strength Training Specialist',
+            'Cycling Instructor'
+        ]
+    },
+    locations: [
+        { value: 'main', name: 'Main Branch' },
+        { value: 'downtown', name: 'Downtown' },
+        { value: 'uptown', name: 'Uptown' }
+    ],
+    packages: [
+        {
+            id: 1,
+            title: 'Single Session',
+            price: 55,
+            description: 'One-on-one training session with Alex'
+        },
+        {
+            id: 2,
+            title: '5 Sessions Package',
+            price: 250,
+            description: '5 one-on-one training sessions (Save $25)'
+        },
+        {
+            id: 3,
+            title: '10 Sessions Package',
+            price: 450,
+            description: '10 one-on-one training sessions (Save $100)'
+        }
+    ]
+}) %> 

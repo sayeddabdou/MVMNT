@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - <%= title %></title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/style-shop.css">
+</head>
+<body>
+    <header>
+        <a href="/admin" class="logo">Admin <span>Gym</span></a>
+        <div id="menu-icon" class="fas fa-bars"></div>
+        <ul class="navbar">
+            <li><a href="/admin" class="<%= currentPage === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
+            <li><a href="/admin/classes" class="<%= currentPage === 'classes' ? 'active' : '' %>">Classes</a></li>
+            <li><a href="/admin/members" class="<%= currentPage === 'members' ? 'active' : '' %>">Members</a></li>
+            <li><a href="/admin/orders" class="<%= currentPage === 'orders' ? 'active' : '' %>">Orders</a></li>
+            <li><a href="/admin/shop" class="<%= currentPage === 'shop' ? 'active' : '' %>">Shop</a></li>
+            <li><button class="nav-btn" id="logout-btn">Logout</button></li>
+        </ul>
+    </header>
+    
+    <%- body %>
+    
+    <!-- Common Scripts -->
+    <script src="/js/script.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/responsive-nav.js"></script>
+    
+    <!-- Page-specific Scripts -->
+    <%- defineContent('scripts') %>
+</body>
+</html> 
