@@ -1,0 +1,69 @@
+<!-- Products Hero Banner -->
+<section class="products-hero" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+url('/images/gym-equipments-wide.jpg'); background-size: cover; background-position: center;">
+    <div class="products-hero-content">
+        <h1>ALL PRODUCTS</h1>
+        <p>Explore our complete collection of premium gym essentials</p>
+    </div>
+</section>
+
+<!-- Products Section with Filter -->
+<section class="products-section">
+    <div class="section-title">
+        <h2>OUR COLLECTION</h2>
+        <p>Everything you need for your fitness journey</p>
+    </div>
+    
+    <div class="products-grid">
+        <% products.forEach(product => { %>
+            <div class="product-card" data-id="<%= product.id %>">
+                <div class="product-image">
+                    <img src="/images/<%= product.image %>" alt="<%= product.title %>">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title"><%= product.name %></h3>
+                    <span class="product-category"><%= product.category %></span>
+                    <div class="price-container">
+                        <span class="current-price">$<%= product.price %></span>
+                        <% if (product.originalPrice) { %>
+                            <span class="original-price">$<%= product.originalPrice %></span>
+                        <% } %>
+                    </div>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn decrease">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn increase">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <i class='bx bx-x close-cart'></i>
+    </div>
+    
+    <div class="cart-items">
+        <div class="empty-cart">
+            <i class='bx bx-cart-alt'></i>
+            <p>Your cart is empty</p>
+        </div>
+    </div>
+    
+    <div class="cart-summary">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span>$0.00</span>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+</div>
+
+<div class="overlay"></div> 
