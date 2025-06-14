@@ -1,0 +1,55 @@
+<%- include('booking-trainer', {
+    trainer: {
+        id: 'john',
+        name: 'John Doe',
+        role: 'Lead Boxing Coach',
+        specialties: ['Boxing', 'HIIT', 'Strength Training'],
+        experience: '10 years',
+        image: 'coach-john.jpg',
+        description: 'John is a professional boxing coach with extensive experience in HIIT and strength training. He helps clients achieve their fitness goals through dynamic workouts.',
+        classes: [
+            {
+                name: 'Boxing Fundamentals',
+                schedule: 'Mon, Wed, Fri 5:00 PM',
+                duration: '45 mins',
+                level: 'All Levels'
+            },
+            {
+                name: 'HIIT Training',
+                schedule: 'Tue, Thu 6:00 PM',
+                duration: '45 mins',
+                level: 'Advanced'
+            }
+        ],
+        certifications: [
+            'Professional Boxing Coach',
+            'HIIT Specialist',
+            'Strength & Conditioning Coach'
+        ]
+    },
+    locations: [
+        { value: 'main', name: 'Main Branch' },
+        { value: 'downtown', name: 'Downtown' },
+        { value: 'uptown', name: 'Uptown' }
+    ],
+    packages: [
+        {
+            id: 1,
+            title: 'Single Session',
+            price: 60,
+            description: 'One-on-one training session with John'
+        },
+        {
+            id: 2,
+            title: '5 Sessions Package',
+            price: 275,
+            description: '5 one-on-one training sessions (Save $25)'
+        },
+        {
+            id: 3,
+            title: '10 Sessions Package',
+            price: 500,
+            description: '10 one-on-one training sessions (Save $100)'
+        }
+    ]
+}) %> 

@@ -1,0 +1,55 @@
+<%- include('booking-trainer', {
+    trainer: {
+        id: 'emily',
+        name: 'Emily Smith',
+        role: 'Lead Pilates Instructor',
+        specialties: ['Pilates', 'Yoga', 'Core Training'],
+        experience: '8 years',
+        image: 'coach-emily.jpg',
+        description: 'Emily is a certified Pilates and Yoga instructor with over 8 years of experience. She specializes in core strengthening and flexibility training.',
+        classes: [
+            {
+                name: 'Pilates Fundamentals',
+                schedule: 'Mon, Wed, Fri 9:00 AM',
+                duration: '50 mins',
+                level: 'All Levels'
+            },
+            {
+                name: 'Core & Flexibility',
+                schedule: 'Tue, Thu 10:00 AM',
+                duration: '45 mins',
+                level: 'Intermediate'
+            }
+        ],
+        certifications: [
+            'Certified Pilates Instructor',
+            'RYT-500 Yoga Certification',
+            'Core Training Specialist'
+        ]
+    },
+    locations: [
+        { value: 'main', name: 'Main Branch' },
+        { value: 'downtown', name: 'Downtown' },
+        { value: 'uptown', name: 'Uptown' }
+    ],
+    packages: [
+        {
+            id: 1,
+            title: 'Single Session',
+            price: 50,
+            description: 'One-on-one training session with Emily'
+        },
+        {
+            id: 2,
+            title: '5 Sessions Package',
+            price: 225,
+            description: '5 one-on-one training sessions (Save $25)'
+        },
+        {
+            id: 3,
+            title: '10 Sessions Package',
+            price: 400,
+            description: '10 one-on-one training sessions (Save $100)'
+        }
+    ]
+}) %> 

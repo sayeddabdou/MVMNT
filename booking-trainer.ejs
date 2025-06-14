@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Session with <%= trainer.name %> - MVMNT Gym</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/booking-trainer.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <a href="/" class="logo">MVM<span>NT</span></a>
+        <nav class="navbar">
+            <a href="/">Home</a>
+            <a href="/locations">Locations</a>
+            <a href="/classes">Classes</a>
+            <a href="/our-team" class="active">Our Team</a>
+            <a href="/membership">Membership</a>
+            <a href="/user">My Account</a>
+            <a href="/shop">Shop</a>
+        </nav>
+        <button id="logout-btn" class="nav-btn" style="display: none;">Log Out</button>
+        <button id="show-login-btn" class="nav-btn">Log In</button>
+    </header>
+
+    <!-- Booking Main Content -->
+    <section class="booking-container">
+        <div class="coach-header">
+            <img src="/images/<%= trainer.image %>" alt="<%= trainer.name %>" class="coach-image">
+            <div class="coach-info">
+                <h2><%= trainer.name %></h2>
+                <div class="coach-role"><%= trainer.role %></div>
+                <div class="coach-experience">Experience: <%= trainer.experience %></div>
+                <div class="coach-specialties">
+                    <h3>Specialties:</h3>
+                    <ul>
+                        <% trainer.specialties.forEach(specialty => { %>
+                            <li><%= specialty %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+                <div class="coach-certifications">
+                    <h3>Certifications:</h3>
+                    <ul>
+                        <% trainer.certifications.forEach(cert => { %>
+                            <li><%= cert %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="coach-description">
+            <p><%= trainer.description %></p>
+        </div>
+
+        <div class="coach-classes">
+            <h3>Available Classes:</h3>
+            <div class="classes-grid">
+                <% trainer.classes.forEach(classItem => { %>
+                    <div class="class-card">
+                        <h4><%= classItem.name %></h4>
+                        <p><strong>Schedule:</strong> <%= classItem.schedule %></p>
+                        <p><strong>Duration:</strong> <%= classItem.duration %></p>
+                        <p><strong>Level:</strong> <%= classItem.level %></p>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <form id="bookingForm" class="booking-form" action="/booking/<%= trainer.id %>" method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Preferred Time</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Preferred Location</label>
+                <select id="location" name="location" required>
+                    <option value="">Select location</option>
+                    <% locations.forEach(location => { %>
+                        <option value="<%= location.value %>"><%= location.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="package-options">
+                <h3>Select a Package</h3>
+                <div class="package-container">
+                    <% packages.forEach(package => { %>
+                        <div class="package-card" data-package-id="<%= package.id %>">
+                            <div class="package-title"><%= package.title %></div>
+                            <div class="package-price">$<%= package.price %></div>
+                            <p><%= package.description %></p>
+                        </div>
+                    <% }); %>
+                </div>
+                <input type="hidden" id="selectedPackage" name="packageId" value="">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="goals">Your Fitness Goals</label>
+                <textarea id="goals" name="goals" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Complete Booking</button>
+        </form>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form" action="/login" method="POST">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <script src="/js/booking-trainer.js"></script>
+</body>
+</html> 

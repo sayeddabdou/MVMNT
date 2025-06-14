@@ -1,0 +1,55 @@
+<%- include('booking-trainer', {
+    trainer: {
+        id: 'ryan',
+        name: 'Ryan Clark',
+        role: 'Boxing & Calisthenics Specialist',
+        specialties: ['Boxing', 'Calisthenics', 'HIIT'],
+        experience: '5 years',
+        image: 'coach-ryan.jpg',
+        description: 'Ryan combines boxing techniques with calisthenics to create dynamic, high-energy workouts that build strength and endurance.',
+        classes: [
+            {
+                name: 'Boxing & Conditioning',
+                schedule: 'Mon, Wed, Fri 6:00 PM',
+                duration: '45 mins',
+                level: 'Intermediate'
+            },
+            {
+                name: 'Calisthenics & HIIT',
+                schedule: 'Tue, Thu 4:00 PM',
+                duration: '45 mins',
+                level: 'Advanced'
+            }
+        ],
+        certifications: [
+            'Boxing Coach Certification',
+            'Calisthenics Specialist',
+            'HIIT Training Certification'
+        ]
+    },
+    locations: [
+        { value: 'main', name: 'Main Branch' },
+        { value: 'downtown', name: 'Downtown' },
+        { value: 'uptown', name: 'Uptown' }
+    ],
+    packages: [
+        {
+            id: 1,
+            title: 'Single Session',
+            price: 50,
+            description: 'One-on-one training session with Ryan'
+        },
+        {
+            id: 2,
+            title: '5 Sessions Package',
+            price: 225,
+            description: '5 one-on-one training sessions (Save $25)'
+        },
+        {
+            id: 3,
+            title: '10 Sessions Package',
+            price: 400,
+            description: '10 one-on-one training sessions (Save $100)'
+        }
+    ]
+}) %> 

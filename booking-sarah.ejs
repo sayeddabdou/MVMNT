@@ -1,0 +1,55 @@
+<%- include('booking-trainer', {
+    trainer: {
+        id: 'sarah',
+        name: 'Sarah Lee',
+        role: 'Lead Yoga & Cycling Instructor',
+        specialties: ['Yoga', 'Cycling', 'Mind-Body Training'],
+        experience: '7 years',
+        image: 'coach-sarah.jpg',
+        description: 'Sarah combines her expertise in yoga and cycling to create balanced, effective workouts that focus on both physical and mental well-being.',
+        classes: [
+            {
+                name: 'Yoga Flow',
+                schedule: 'Mon, Wed, Fri 8:00 AM',
+                duration: '60 mins',
+                level: 'All Levels'
+            },
+            {
+                name: 'Indoor Cycling',
+                schedule: 'Tue, Thu 5:30 PM',
+                duration: '45 mins',
+                level: 'Intermediate'
+            }
+        ],
+        certifications: [
+            'RYT-500 Yoga Certification',
+            'Cycling Instructor Certification',
+            'Mind-Body Training Specialist'
+        ]
+    },
+    locations: [
+        { value: 'main', name: 'Main Branch' },
+        { value: 'downtown', name: 'Downtown' },
+        { value: 'uptown', name: 'Uptown' }
+    ],
+    packages: [
+        {
+            id: 1,
+            title: 'Single Session',
+            price: 55,
+            description: 'One-on-one training session with Sarah'
+        },
+        {
+            id: 2,
+            title: '5 Sessions Package',
+            price: 250,
+            description: '5 one-on-one training sessions (Save $25)'
+        },
+        {
+            id: 3,
+            title: '10 Sessions Package',
+            price: 450,
+            description: '10 one-on-one training sessions (Save $100)'
+        }
+    ]
+}) %> 

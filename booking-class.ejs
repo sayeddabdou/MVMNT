@@ -1,0 +1,217 @@
+<!-- Hero Image Section -->
+<div class="class-hero-image">
+    <img src="/images/<%= classData.image %>" alt="<%= classData.name %> Class in Action">
+</div>
+
+<section class="class-details-section">
+    <!-- Left Column - Booking Form -->
+    <div class="booking-form-container">
+        <div class="booking-form-card">
+            <h2 class="form-title">BOOK THIS CLASS NOW</h2>
+            <p class="form-subtitle">Come along and join this great class at the gym</p>
+            
+            <form method="POST" action="/bookings" class="class-booking-form" id="bookingForm">
+                <!-- Hidden fields for class details -->
+                <input type="hidden" id="selectedPackage" name="packageId" value="">
+                <input type="hidden" name="className" value="<%= classData.name %>">
+                <input type="hidden" name="classType" value="<%= classData.type %>">
+                <input type="hidden" name="difficulty" value="<%= classData.difficulty %>">
+                <input type="hidden" name="calories" value="<%= classData.calories %>">
+                <input type="hidden" name="duration" value="<%= classData.duration %>">
+                <input type="hidden" name="place" value="<%= classData.location %>">
+                <% if (classData.trainers && classData.trainers.length > 0) { %>
+                    <input type="hidden" name="trainer" value="<%= classData.trainers[0].name %>">
+                <% } %>
+                
+                <!-- User input fields -->
+                <div class="form-input-group">
+                    <input type="text" name="name" id="name" placeholder="Your Name..." required>
+                </div>
+                <div class="form-input-group">
+                    <input type="email" name="email" id="email" placeholder="Your E Mail..." required>
+                </div>
+                <div class="form-input-group">
+                    <input type="tel" name="phone" id="phone" placeholder="Your Phone..." required>
+                </div>
+                <button type="submit" class="booking-submit-btn">BOOK NOW</button>
+                <div class="terms-agreement">
+                    <input type="checkbox" id="terms-agreement" name="termsAgreed" required>
+                    <label for="terms-agreement">I've read and I accept the Terms & Conditions</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column - Class Details -->
+    <div class="class-info-container">
+        <div class="class-info-header">
+            <h1><%= classData.name.toUpperCase() %></h1>
+            <div class="class-meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">TYPE:</span>
+                    <span class="meta-value"><%= classData.type %></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">DIFFICULTY:</span>
+                    <span class="meta-value"><%= classData.difficulty %></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">CALORIES:</span>
+                    <span class="meta-value"><%= classData.calories %> KCal</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">DURATION:</span>
+                    <span class="meta-value"><%= classData.duration %> mins</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">PLACE:</span>
+                    <span class="meta-value"><%= classData.location %></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">LIMIT:</span>
+                    <span class="meta-value"><%= classData.capacity %> participants</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="trainers-section">
+            <h2>CLASS TRAINERS</h2>
+            <div class="trainers-grid">
+                <% classData.trainers.forEach(trainer => { %>
+                    <div class="trainer-card">
+                        <img src="/images/<%= trainer.image %>" alt="<%= trainer.name %>" class="trainer-photo">
+                        <div class="trainer-info">
+                            <h3><%= trainer.name %></h3>
+                            <p><%= trainer.role %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <div class="class-description">
+            <h2>ABOUT THE <%= classData.name.toUpperCase() %> CLASSES</h2>
+            <p><%= classData.description %></p>
+            
+            <h3>The Health benefits of <%= classData.name.toLowerCase() %></h3>
+            <ul class="benefits-list">
+                <% classData.benefits.forEach(benefit => { %>
+                    <li><%= benefit %></li>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Login Modal -->
+<div id="login-modal" class="modal">
+    <div class="modal-box">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Login</h2>
+        <form id="login-form" action="/auth/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <p class="form-footer">
+                Don't have an account? <a href="/signup">Sign up</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Existing styles remain the same */
+
+/* Add styles for existing bookings */
+.existing-bookings-card {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.existing-bookings-card h3 {
+    color: #00ffff;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.booking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #1a1a1a;
+    border-radius: 5px;
+    border-left: 3px solid #00ffff;
+}
+
+.booking-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.booking-name {
+    font-weight: bold;
+    color: #fff;
+}
+
+.booking-date {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.booking-status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.status-confirmed {
+    background: rgba(0, 255, 0, 0.1);
+    color: #00ff00;
+}
+
+.status-pending {
+    background: rgba(255, 255, 0, 0.1);
+    color: #ffff00;
+}
+
+.status-cancelled {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+}
+</style>
+
+<script>
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    // Add form submission logging
+    console.log('Form submitted with data:', {
+        name: this.name.value,
+        email: this.email.value,
+        phone: this.phone.value,
+        className: this.className.value,
+        classType: this.classType.value,
+        difficulty: this.difficulty.value,
+        calories: this.calories.value,
+        duration: this.duration.value,
+        place: this.place.value,
+        trainer: this.trainer.value
+    });
+});
+</script> 
+
