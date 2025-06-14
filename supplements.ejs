@@ -1,0 +1,178 @@
+<!-- Hero Section -->
+<section class="supplements-hero" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+url('/images/supplements-background.jpg'); background-size: cover; background-position: center;">
+    <div class="supplements-hero-content">
+        <h1>PERFORMANCE SUPPLEMENTS</h1>
+        <p>Premium formulas to fuel your workouts and recovery</p>
+    </div>
+</section>
+
+<!-- Supplements Categories -->
+<section class="supplement-categories">
+    <div class="section-title">
+        <h2>SUPPLEMENT TYPES</h2>
+        <p>Find exactly what you need for your fitness goals</p>
+    </div>
+    
+    <div class="category-grid">
+        <% const categories = [
+            { name: 'Protein', link: '#protein-products' },
+            { name: 'Pre-Workout', link: '#preworkout-products' },
+            { name: 'Recovery', link: '#recovery-products' }
+        ]; %>
+        
+        <% categories.forEach(category => { %>
+            <div class="category-card <%= category.name.toLowerCase() %>">
+                <h3><%= category.name %></h3>
+                <a href="<%= category.link %>" class="category-btn">Shop Now</a>
+            </div>
+        <% }); %>
+    </div>
+</section>
+
+<!-- Products Sections -->
+<% const products = {
+    protein: {
+        title: 'PROTEIN SUPPLEMENTS',
+        description: 'Build and maintain muscle with our premium protein formulas',
+        items: [
+            {
+                id: 'whey-isolate',
+                image: 'isolate.jpg',
+                title: 'Whey Protein Isolate',
+                category: 'Protein',
+                price: '49.99'
+            },
+            {
+                id: 'plant-protein',
+                image: 'plant.jpg',
+                title: 'Plant-Based Protein',
+                category: 'Protein',
+                price: '44.99'
+            },
+            {
+                id: 'casein-protein',
+                image: 'casein.jpg',
+                title: 'Casein Protein',
+                category: 'Protein',
+                price: '54.99'
+            }
+        ]
+    },
+    preworkout: {
+        title: 'PRE-WORKOUT',
+        description: 'Enhance your performance and energy levels',
+        items: [
+            {
+                id: 'energy-preworkout',
+                image: 'preworkout.jpg',
+                title: 'Energy Pre-Workout',
+                category: 'Pre-Workout',
+                price: '34.99'
+            },
+            {
+                id: 'stim-free-preworkout',
+                image: 'pump.jpg',
+                title: 'Stim-Free Pre-Workout',
+                category: 'Pre-Workout',
+                price: '39.99'
+            },
+            {
+                id: 'nitric-oxide',
+                image: 'nitric.jpg',
+                title: 'Nitric Oxide Booster',
+                category: 'Pre-Workout',
+                price: '29.99'
+            }
+        ]
+    },
+    recovery: {
+        title: 'RECOVERY',
+        description: 'Support muscle repair and reduce soreness',
+        items: [
+            {
+                id: 'bcaa-complex',
+                image: 'bcaa.jpg',
+                title: 'BCAA Complex',
+                category: 'Recovery',
+                price: '24.99'
+            },
+            {
+                id: 'l-glutamine',
+                image: 'glytamine.jpg',
+                title: 'L-Glutamine',
+                category: 'Recovery',
+                price: '19.99'
+            },
+            {
+                id: 'post-workout-recovery',
+                image: 'outlift.jpg',
+                title: 'Post-Workout Recovery',
+                category: 'Recovery',
+                price: '29.99'
+            }
+        ]
+    }
+}; %>
+
+<% Object.entries(products).forEach(([key, section]) => { %>
+    <section class="supplement-products" id="<%= key %>-products">
+        <div class="section-title">
+            <h2><%= section.title %></h2>
+            <p><%= section.description %></p>
+        </div>
+        
+        <div class="products-grid">
+            <% section.items.forEach(product => { %>
+                <div class="product-card" data-id="<%= product.id %>">
+                    <div class="product-image">
+                        <img src="/images/<%= product.image %>" alt="<%= product.title %>">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title"><%= product.title %></h3>
+                        <span class="product-category"><%= product.category %></span>
+                        <div class="price-container">
+                            <span class="current-price">$<%= product.price %></span>
+                        </div>
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <button class="quantity-btn decrease">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn increase">+</button>
+                            </div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </section>
+<% }); %>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <i class='bx bx-x close-cart'></i>
+    </div>
+    
+    <div class="cart-items">
+        <div class="empty-cart">
+            <i class='bx bx-cart-alt'></i>
+            <p>Your cart is empty</p>
+        </div>
+    </div>
+    
+    <div class="cart-summary">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span>$0.00</span>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+</div>
+
+<div class="overlay"></div>
+
+<%- contentFor('scripts') %>
+<script src="/js/cart.js"></script> 
