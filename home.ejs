@@ -1,0 +1,115 @@
+<!-- Home section -->
+<section class="home" id="home">
+    <div class="home-content">
+        <h3>Build your</h3>
+        <h1>Body</h1>
+        <h3><span class="multiple-text">BodyBuilding</span></h3>
+        <p>Join our community and take the first step towards a healthier you.</p>
+        
+        <a href="/membership" class="btn">Join Now</a>
+        <p>MVMNT kickstarted in 2017 with a game-changing mindset to start an evolution in the fitness industry,
+            setting new benchmarks for rapid and outstanding physical and mental transformations. The concept
+            being derived from an Olympic champion and the well-established fitness figure, Lazar Angelov,
+            upholds our belief that any transformation starts from within. One trains, disciplines, and
+            strengthens the mind first to boost the body's activity to unlock your highest performance.</p>
+    </div>
+    <div class="home-img">
+        <img src="/images/small.jpg" alt="Home image">
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Transform Your Body, Elevate Your Life</h1>
+    <p>MVMNT Gym offers premium fitness experiences with world-class trainers, cutting-edge facilities, and personalized programs to help you achieve your goals.</p>
+    <div class="cta-buttons">
+        <a href="/membership" class="btn-primary">Join Now</a>
+        <a href="/classes" class="btn-secondary">Explore Classes</a>
+        <a href="/shop" class="btn-secondary" target="_blank">Shop Now</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="section-title">
+        <h2>Why Choose MVMNT</h2>
+    </div>
+    <div class="features-grid">
+        <% features.forEach(feature => { %>
+            <div class="feature-card">
+                <div class="feature-img">
+                    <img src="/images/<%= feature.image %>" alt="<%= feature.title %>">
+                </div>
+                <div class="feature-content">
+                    <h3><%= feature.title %></h3>
+                    <p><%= feature.description %></p>
+                    <a href="<%= feature.link %>" class="feature-link"><%= feature.linkText %> <i class='bx bx-chevron-right'></i></a>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section>
+
+<!-- Enhanced Our Story Section -->
+<section class="about">
+    <div class="section-title">
+        <h2>Our Evolution</h2>
+    </div>
+    <div class="about-content">
+        <p class="about-intro">
+            MVMNT kickstarted in 2017 with a game-changing mindset to revolutionize the fitness industry. 
+            Our journey from a single location to becoming Cairo's premier fitness destination has been 
+            fueled by innovation, passion, and transformative results.
+        </p>
+        
+        <div class="timeline">
+            <% timeline.forEach(item => { %>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3><%= item.title %></h3>
+                        <p><%= item.description %></p>
+                    </div>
+                    <div class="timeline-year"><%= item.year %></div>
+                </div>
+            <% }); %>
+        </div>
+        
+        <div class="stats-grid">
+            <% stats.forEach(stat => { %>
+                <div class="stat-item">
+                    <div class="stat-number"><%= stat.number %></div>
+                    <div class="stat-label"><%= stat.label %></div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Member Transformations Section -->
+<section class="transformations">
+    <div class="section-title">
+        <h2>Member Transformations</h2>
+    </div>
+    <p class="section-intro">
+        Real results from our community. These transformations represent months of dedication and proper guidance.
+    </p>
+    
+    <div class="transformation-cards">
+        <% transformations.forEach(transformation => { %>
+            <div class="transformation-card">
+                <div class="transformation-images">
+                    <div class="transformation-before">
+                        <img src="/images/<%= transformation.beforeImage %>" alt="Before">
+                    </div>
+                    <div class="transformation-after">
+                        <img src="/images/<%= transformation.afterImage %>" alt="After">
+                    </div>
+                </div>
+                <div class="transformation-content">
+                    <p><%= transformation.quote %></p>
+                    <div class="transformation-name"><%= transformation.name %></div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</section> 
